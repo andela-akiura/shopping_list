@@ -1,9 +1,10 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from models import Shopper, ShoppingItem, ShoppingList
+from django.urls import reverse
 
 # Create your tests here.
-class ShopperTest(TestCase):
+class ShopperModelTest(TestCase):
     def test_shopper_creation(self):
         user = User.objects.create(username='kiura',
                                    email='kiuraalex@gmail.com',
@@ -31,3 +32,7 @@ class ShopperTest(TestCase):
 
         self.assertEqual(first_shopping_list.items.all()[0].item_name,
                          shopping_item.item_name)
+
+class ShopperViewTest(TestCase):
+    def test_view_with_no_shopping_list(self):
+        response = self.client.get(reverse('shopper'))
